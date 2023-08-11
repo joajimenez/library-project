@@ -1,5 +1,3 @@
-Sure, here's a README file for your project:
-
 # myLibrary Project
 
 ## Description
