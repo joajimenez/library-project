@@ -1,4 +1,6 @@
 ui = {
+  libraryContainer: document.getElementById('library-container-el'),
+
   addBookButton: document.querySelector('.add-book-btn'),
   removeAllBooksButton: document.querySelector('.remove-all-btn'),
 
@@ -7,19 +9,14 @@ ui = {
   addBookForm: document.querySelector('#add-book-form'),
   formSubmitButton: document.querySelector('.form-submit-btn'),
   formCancelButton: document.querySelector('.form-cancel-btn'),
-
-  //   removeUniqueBookButtons: document.querySelectorAll('.remove-book'),
-  changeReadStatusButtons: document.querySelectorAll('.change-read-status'),
-
-  bookStatus: document.querySelector('.book-is-read'),
 };
-
-console.log(ui.removeUniqueBookButtons);
 
 let myLibrary = [
   new Book('The Hobbit', 'J.R.R. Tolkien', 295, 'Read'),
   new Book('The Fellowship of the Ring', 'J.R.R. Tolkien', 423, 'Read'),
   new Book('The NeverEnding Story', 'Michael Ende', 368, 'Read'),
+
+    new Book('Little Bets: How Breakthrough Ideas Emerge from Small Discoveries', 'Peter Sims', 189, 'Not Read')
 ];
 
 function Book(name, author, pages, isRead) {
@@ -29,8 +26,7 @@ function Book(name, author, pages, isRead) {
   this.isRead = isRead;
 }
 
-// Functions for the library
-
+// Main functions
 function addToLibrary(book) {
   myLibrary.unshift(book);
 }
@@ -41,12 +37,12 @@ function removeAllBooks() {
 }
 
 function displayBooks(arr) {
-  document.querySelector('#library-container-el').innerHTML = '';
+  ui.libraryContainer.innerHTML = '';
   arr.forEach((book) => {
     let bookDiv = document.createElement('div');
     bookDiv.classList.add('book');
     bookDiv.classList.add('card');
-    bookDiv.setAttribute('data-index', myLibrary.indexOf(book));
+    bookDiv.setAttribute('data-index', myLibrary.indexOf(book).toString());
     let bookName = document.createElement('h2');
     bookName.textContent = book.name;
     let bookAuthor = document.createElement('h3');
@@ -66,6 +62,7 @@ function displayBooks(arr) {
     bookIsRead.textContent = 'Status: ';
 
     let bookStatus = document.createElement('span');
+    bookStatus.classList.add('book-status');
     bookStatus.textContent = book.isRead;
 
     bookIsRead.appendChild(bookStatus);
@@ -91,74 +88,70 @@ function displayBooks(arr) {
   });
 }
 
-function changeReadStatus(e) {
-  let book = myLibrary[e.target.parentElement.parentElement.dataset.index];
-  book.isRead = !book.isRead;
-  displayBooks(myLibrary);
+function changeReadStatus() {
+const libraryContainer = ui.libraryContainer
+const bookDivs = libraryContainer.querySelectorAll('.card');
+for (let i = 0; i < bookDivs.length; i++) {
+  const bookCard = bookDivs[i];
+  const changeStatusButton = bookCard.querySelector('.change-read-status')
+  const bookStatus = bookCard.querySelector(".book-status")
+  changeStatusButton.addEventListener('click', function () {
+   if (bookStatus.textContent === 'Read') {
+     bookStatus.textContent = 'Not Read'
+     myLibrary[i].isRead = false
+   } else {
+     bookStatus.textContent = 'Read'
+     myLibrary[i].isRead = true
+   }
+  })
+}
 }
 
-function removeBookFromLibrary(e) {
-  let book = myLibrary[e.target.parentElement.parentElement.dataset.index];
-  //   myLibrary.splice(myLibrary.indexOf(book), 1);
-  //   displayBooks(myLibrary);
-  console.log(`button ${book} was clicked.`);
+function removeBookFromLibrary() {
+  const libraryContainer = ui.libraryContainer
+  const bookDivs = libraryContainer.querySelectorAll('.card');
+  for (let i = 0; i < bookDivs.length; i++) {
+    const bookCard = bookDivs[i];
+    const removeButton = bookCard.querySelector('.remove-book')
+    removeButton.addEventListener('click', function () {
+      bookCard.remove()
+    })
+  }
 }
 
 // Event Listeners
-ui.addBookButton.addEventListener('click', () => {
-  ui.addBookDialog.showModal();
-});
-
-ui.formCancelButton.addEventListener('click', () => {
-  ui.dialog.close();
-});
-
-ui.formSubmitButton.addEventListener('click', (e) => {
-  e.preventDefault();
-  let bookName = document.querySelector('#book-name').value;
-  let bookAuthor = document.querySelector('#book-author').value;
-  let bookPages = document.querySelector('#book-pages').value;
-  let bookIsRead = document.querySelector('#book-is-read').checked;
-  let book = new Book(bookName, bookAuthor, bookPages, bookIsRead);
-
-  addToLibrary(book);
-  ui.addBookDialog.close();
-  displayBooks(myLibrary);
-});
-
-ui.removeAllBooksButton.addEventListener('click', () => {
-  removeAllBooks();
-});
-
-// Initial display of books
-
-function main() {
-  displayBooks(myLibrary);
-  const removeUniqueBookButtons = document.querySelectorAll('.remove-book');
-
-  const changeReadStatusButtons = document.querySelectorAll(
-    '.change-read-status'
-  );
-
-//   console.log(removeUniqueBookButtons);
-//   console.log(changeReadStatusButtons);
-
-  removeUniqueBookButtons.forEach((button) => {
-    button.addEventListener('click', function () {
-      bookIndex = this.parentElement.parentElement.dataset.index;
-      console.log(bookIndex);
-      myLibrary.splice(bookIndex, 1);
-      displayBooks(myLibrary);
-    });
+  ui.addBookButton.addEventListener('click', () => {
+    ui.addBookDialog.showModal();
   });
+
+  ui.formCancelButton.addEventListener('click', () => {
+    ui.dialog.close();
+  });
+
+  ui.formSubmitButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    let bookName = document.querySelector('#book-name').value;
+    let bookAuthor = document.querySelector('#book-author').value;
+    let bookPages = document.querySelector('#book-pages').value;
+    let bookIsRead = document.querySelector('#book-is-read').checked;
+    let book = new Book(bookName, bookAuthor, bookPages, bookIsRead);
+
+    addToLibrary(book);
+    ui.addBookDialog.close();
+    displayBooks(myLibrary);
+  });
+
+  ui.removeAllBooksButton.addEventListener('click', () => {
+    removeAllBooks();
+  });
+
+  function main() {
+    // Initial library display
+    displayBooks(myLibrary);
+    // unique book removal
+    removeBookFromLibrary()
+    // Change read status
+    changeReadStatus()
 }
 
-// ui.changeReadStatusButtons.forEach((button) => {
-//   button.addEventListener('click', function () {
-//     bookIndex = this.parentElement.parentElement.dataset.index;
-//   });
-// });
-
-main();
-
-// console.log(ui.changeReadStatusButtons);
+main()
