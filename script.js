@@ -5,14 +5,16 @@ ui = {
   dialog: document.querySelector('#add-book-dialog'),
   addBookDialog: document.querySelector('#add-book-dialog'),
   addBookForm: document.querySelector('#add-book-form'),
-
   formSubmitButton: document.querySelector('.form-submit-btn'),
   formCancelButton: document.querySelector('.form-cancel-btn'),
 
+  //   removeUniqueBookButtons: document.querySelectorAll('.remove-book'),
   changeReadStatusButtons: document.querySelectorAll('.change-read-status'),
 
   bookStatus: document.querySelector('.book-is-read'),
 };
+
+console.log(ui.removeUniqueBookButtons);
 
 let myLibrary = [
   new Book('The Hobbit', 'J.R.R. Tolkien', 295, 'Read'),
@@ -27,8 +29,15 @@ function Book(name, author, pages, isRead) {
   this.isRead = isRead;
 }
 
+// Functions for the library
+
 function addToLibrary(book) {
   myLibrary.unshift(book);
+}
+
+function removeAllBooks() {
+  myLibrary = [];
+  displayBooks(myLibrary);
 }
 
 function displayBooks(arr) {
@@ -82,6 +91,20 @@ function displayBooks(arr) {
   });
 }
 
+function changeReadStatus(e) {
+  let book = myLibrary[e.target.parentElement.parentElement.dataset.index];
+  book.isRead = !book.isRead;
+  displayBooks(myLibrary);
+}
+
+function removeBookFromLibrary(e) {
+  let book = myLibrary[e.target.parentElement.parentElement.dataset.index];
+  //   myLibrary.splice(myLibrary.indexOf(book), 1);
+  //   displayBooks(myLibrary);
+  console.log(`button ${book} was clicked.`);
+}
+
+// Event Listeners
 ui.addBookButton.addEventListener('click', () => {
   ui.addBookDialog.showModal();
 });
@@ -103,21 +126,39 @@ ui.formSubmitButton.addEventListener('click', (e) => {
   displayBooks(myLibrary);
 });
 
-// Initial display of books
-displayBooks(myLibrary);
-
-ui.changeReadStatusButtons = document.querySelectorAll('.change-read-status');
-
-function changeReadStatus(e) {
-  let book = myLibrary[e.target.parentElement.parentElement.dataset.index];
-  book.isRead = !book.isRead;
-  displayBooks(myLibrary);
-}
-
-ui.changeReadStatusButtons.forEach((button) => {
-  button.addEventListener('click', function () {
-    bookIndex = this.parentElement.parentElement.dataset.index;
-  });
+ui.removeAllBooksButton.addEventListener('click', () => {
+  removeAllBooks();
 });
 
-console.log(ui.changeReadStatusButtons);
+// Initial display of books
+
+function main() {
+  displayBooks(myLibrary);
+  const removeUniqueBookButtons = document.querySelectorAll('.remove-book');
+
+  const changeReadStatusButtons = document.querySelectorAll(
+    '.change-read-status'
+  );
+
+//   console.log(removeUniqueBookButtons);
+//   console.log(changeReadStatusButtons);
+
+  removeUniqueBookButtons.forEach((button) => {
+    button.addEventListener('click', function () {
+      bookIndex = this.parentElement.parentElement.dataset.index;
+      console.log(bookIndex);
+      myLibrary.splice(bookIndex, 1);
+      displayBooks(myLibrary);
+    });
+  });
+}
+
+// ui.changeReadStatusButtons.forEach((button) => {
+//   button.addEventListener('click', function () {
+//     bookIndex = this.parentElement.parentElement.dataset.index;
+//   });
+// });
+
+main();
+
+// console.log(ui.changeReadStatusButtons);
