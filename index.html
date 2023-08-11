@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Project: Library</title>
+  </head>
+  <body>
+    <div class="main-container">
+      <nav>
+        <h1>myLibrary</h1>
+        <div class="nav-btns">
+          <button class="add-book-btn">Add Book</button>
+          <button class="remove-all-btn">Remove All</button>
+        </div>
+      </nav>
+      <main id="library-container-el">
+        <div class="book-el card card-1">
+          <div class="book-el-title">
+            <h3>The Chronicles of Narnia</h3>
+          </div>
+          <div class="book-el-author">
+            <h3>C.S. Lewis</h3>
+          </div>
+          <div class="book-el-pages">
+            <p>Pages: <span>180</span></p>
+          </div>
+          <div class="book-el-status">
+            <p>Status: <span>To Read</span></p>
+          </div>
+          <div class="book-el-buttons-container">
+            <button class="change-status-btn">Change Read Status</button>
+            <button class="remove-btn">Remove</button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- A dialog box as a form to add a new book -->
+
+    <dialog id="add-book-dialog">
+      <form>
+        <legend>Add a new book</legend>
+        <label for="form-book-title"></label>
+        <input type="text" id="form-book-title" placeholder="Title" />
+
+        <label for="form-book-author"></label>
+        <input type="text" id="form-book-author" placeholder="Author" />
+
+        <label for="form-book-pages"></label>
+        <input type="number" id="form-book-pages" placeholder="Pages" />
+
+        <div class="read-container">
+          <span for="form-book-read-status">Have you read it?</span>
+          <input type="checkbox" id="form-book-read-status" />
+        </div>
+
+        <button class="form-submit-btn">Submit</button>
+      </form>
+    </dialog>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
