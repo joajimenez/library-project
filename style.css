@@ -59,6 +59,13 @@ button {
   font-weight: 400;
 }
 
+.add-book-btn {
+  background-color: #006992;
+  color: #fff;
+  border: none;
+  font-weight: 600;
+}
+
 dialog {
   border: none !important;
   border-radius: 0.5rem;
@@ -96,9 +103,39 @@ form .form-buttons-container {
   background-color: #006992;
   color: #fff;
   padding: 0.5rem 2rem;
+  font-weight: 600;
 }
 
 .form-cancel-btn {
   background-color: #fff;
   border: none;
+}
+
+/* Media Queries for Responsive Design  */
+
+@media (min-width: 768px) {
+  main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  nav {
+    /* padding: 1rem 2rem; */
+  }
+
+  .nav-buttons {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .card {
+    width: 30%;
+    /* padding-bottom: 18%; 32:18, i.e. 16:9 */
+    /* margin-bottom: 2%; (100-32*3)/2 */
+  }
+
+  dialog {
+    width: 25%;
+  }
 }
