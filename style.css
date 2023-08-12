@@ -120,6 +120,12 @@ form .form-buttons-container {
     justify-content: space-between;
   }
 
+  .card {
+    width: 30%;
+    /* padding-bottom: 18%; 32:18, i.e. 16:9 */
+    /* margin-bottom: 2%; (100-32*3)/2 */
+  }
+
   nav {
     /* padding: 1rem 2rem; */
   }
@@ -127,12 +133,6 @@ form .form-buttons-container {
   .nav-buttons {
     display: flex;
     gap: 2rem;
-  }
-
-  .card {
-    width: 30%;
-    /* padding-bottom: 18%; 32:18, i.e. 16:9 */
-    /* margin-bottom: 2%; (100-32*3)/2 */
   }
 
   dialog {
