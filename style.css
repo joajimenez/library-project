@@ -1,15 +1,18 @@
+/* Reset CSS */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Body */
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   background-color: #f5f5f5;
   min-width: 360px;
 }
 
+/* Nav */
 nav {
   display: flex;
   justify-content: space-between;
@@ -19,11 +22,13 @@ nav {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* Main Container */
 .main-container {
   display: flex;
   flex-direction: column;
 }
 
+/* Card */
 .card {
   display: flex;
   flex-direction: column;
@@ -50,13 +55,14 @@ nav {
   margin: 1rem 0 0.5rem 0;
 }
 
+/* Button */
 button {
   cursor: pointer;
-  border: 1px solid #ccc;
   padding: 0.4rem 0.5rem;
   border-radius: 0.4rem;
   font-size: 1rem;
   font-weight: 400;
+  border: none;
 }
 
 .add-book-btn {
@@ -66,6 +72,7 @@ button {
   font-weight: 600;
 }
 
+/* Dialog */
 dialog {
   border: none !important;
   border-radius: 0.5rem;
@@ -75,6 +82,7 @@ dialog {
   width: 100%;
 }
 
+/* Form */
 form {
   display: flex;
   flex-direction: column;
@@ -84,7 +92,6 @@ form {
 form legend {
   font-size: 1.2rem;
   font-weight: 600;
-  margin-bottom: 1rem;
 }
 
 form input {
@@ -124,10 +131,6 @@ form .form-buttons-container {
     width: 30%;
     /* padding-bottom: 18%; 32:18, i.e. 16:9 */
     /* margin-bottom: 2%; (100-32*3)/2 */
-  }
-
-  nav {
-    /* padding: 1rem 2rem; */
   }
 
   .nav-buttons {
