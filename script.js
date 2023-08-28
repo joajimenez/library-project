@@ -40,7 +40,8 @@ class Library {
 
 const libreria = new Library();
 
-//
+// Add some books to the library
+
 libreria.addBook(new Book('The Hobbit', 'J.R.R. Tolkien', 295, 'Read'));
 
 libreria.addBook(
@@ -71,7 +72,7 @@ libreria.addBook(new Book('1984', 'George Orwell', 328, 'Plan to read'));
 
 libreria.addBook(new Book('Don Quixote', 'Miguel de Cervantes', 900, 'Read'));
 
-console.log(libreria.bookshelf);
+console.log(libreria.bookshelf); // Check the library
 
 function createBookElement(book) {
   const bookDiv = document.createElement('div');
@@ -201,5 +202,7 @@ function main() {
 
   displayBooks(libreria.bookshelf);
 }
+
+
 
 main();

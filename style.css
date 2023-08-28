@@ -24,6 +24,11 @@ nav {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+.nav-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
 /* Main Container */
 .main-container {
   display: flex;
