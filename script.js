@@ -129,45 +129,46 @@ function displayBooks(arr) {
     const bookDiv = createBookElement(book);
     ui.libraryContainer.appendChild(bookDiv);
   });
-
-  // removeBookFromLibrary();
-  changeReadStatus();
 }
 
-function changeReadStatus() {
+// Let's refactor the removeBookFromLibrary function to use event propagation
+
+function setupEventListeners() {
   ui.libraryContainer.addEventListener('click', (event) => {
     const target = event.target;
-    if (target.classList.contains('change-read-status')) {
-      const bookDiv = target.closest('.card');
-      const bookIndex = parseInt(bookDiv.getAttribute('data-index'));
-      const bookStatus = bookDiv.querySelector('.book-status');
+    // Check if the clicked element is the remove button
+    if (target.classList.contains('remove-book')) {
+      handleRemoveBook(target);
+    }
 
-      libreria.bookshelf[bookIndex].isRead =
-        libreria.bookshelf[bookIndex].isRead === 'Read' ? 'Not Read' : 'Read';
-      bookStatus.textContent = libreria.bookshelf[bookIndex].isRead;
+    if (target.classList.contains('change-read-status')) {
+      handleReadStatus(target);
     }
   });
 }
 
-function removeBookFromLibrary() {
-  const libraryContainer = ui.libraryContainer;
-  const bookDivs = libraryContainer.querySelectorAll('.card');
-  for (let i = 0; i < bookDivs.length; i++) {
-    const bookCard = bookDivs[i];
-    const removeButton = bookCard.querySelector('.remove-book');
-    removeButton.addEventListener('click', (event) => {
-      const bookIndex = parseInt(bookCard.getAttribute('data-index'));
+function handleRemoveBook(button) {
+  const bookDiv = button.closest('.card');
+  const bookIndex = parseInt(bookDiv.getAttribute('data-index'));
 
-      // Remove the book card from the DOM
-      bookCard.remove();
+  // Remove the book card from the DOM
+  bookDiv.remove();
 
-      // Remove the book object from the myLibrary array
-      libreria.removeBook(bookIndex, 1);
-      console.log(libreria.bookshelf);
+  // Remove the book object from the "libreria" array
+  libreria.removeBook(bookIndex);
+  console.log(libreria.bookshelf);
 
-      console.log(`Book ${bookIndex} removed`);
-    });
-  }
+  console.log(`Book ${bookIndex} removed`);
+}
+
+function handleReadStatus(button) {
+  const bookDiv = button.closest('.card');
+  const bookIndex = parseInt(bookDiv.getAttribute('data-index'));
+  const bookStatus = bookDiv.querySelector('.book-status');
+
+  libreria.bookshelf[bookIndex].isRead =
+    libreria.bookshelf[bookIndex].isRead === 'Read' ? 'Not Read' : 'Read';
+  bookStatus.textContent = libreria.bookshelf[bookIndex].isRead;
 }
 
 function main() {
@@ -198,11 +199,8 @@ function main() {
     libreria.deleteAllBooks();
   });
 
-  removeBookFromLibrary();
-
+  setupEventListeners();
   displayBooks(libreria.bookshelf);
 }
-
-
 
 main();
