@@ -2,7 +2,6 @@ const ui = {
   libraryContainer: document.getElementById("library-container-el"),
   addBookButton: document.querySelector(".add-book-btn"),
   removeAllBooksButton: document.querySelector(".remove-all-btn"),
-  dialog: document.querySelector("#add-book-dialog"),
   addBookDialog: document.querySelector("#add-book-dialog"),
   addBookForm: document.querySelector("#add-book-form"),
   formSubmitButton: document.querySelector(".form-submit-btn"),
@@ -19,17 +18,17 @@ class Book {
   }
 }
 
-const myLibrary = [
-  new Book("The Hobbit", "J.R.R. Tolkien", 295, "Read"),
-  new Book("The Fellowship of the Ring", "J.R.R. Tolkien", 423, "Read"),
-  new Book("The NeverEnding Story", "Michael Ende", 368, "Read"),
-  new Book(
-    "Little Bets: How Breakthrough Ideas Emerge from Small Discoveries",
-    "Peter Sims",
-    189,
-    "Not Read"
-  ),
-];
+// const myLibrary = [
+//   new Book("The Hobbit", "J.R.R. Tolkien", 295, "Read"),
+//   new Book("The Fellowship of the Ring", "J.R.R. Tolkien", 423, "Read"),
+//   new Book("The NeverEnding Story", "Michael Ende", 368, "Read"),
+//   new Book(
+//     "Little Bets: How Breakthrough Ideas Emerge from Small Discoveries",
+//     "Peter Sims",
+//     189,
+//     "Not Read"
+//   ),
+// ];
 
 class Library {
   constructor() {
@@ -37,18 +36,21 @@ class Library {
   }
   addBook(book) {
     this.bookshelf.unshift(book);
+    displayBooks(this.bookshelf);
   }
 
   removeBook(index) {
     this.bookshelf.splice(index, 1);
+    displayBooks(this.bookshelf);
   }
 
   deleteAllBooks() {
     this.bookshelf.length = 0;
+    displayBooks(this.bookshelf);
   }
 }
 
-let libreria = new Library();
+const libreria = new Library();
 
 libreria.addBook(new Book("The Hobbit", "J.R.R. Tolkien", 295, "Read"));
 
@@ -59,7 +61,7 @@ libreria.addBook(
 libreria.addBook(
   new Book("The NeverEnding Story", "Michael Ende", 368, "Read")
 );
-8
+
 libreria.addBook(
   new Book(
     "Little Bets: How Breakthrough Ideas Emerge from Small Discoveries",
@@ -69,22 +71,31 @@ libreria.addBook(
   )
 );
 
+libreria.addBook(new Book("The Catcher in the Rye", "J.D. Salinger", 273, "Unread"));
+libreria.addBook(new Book("The Great Gatsby", "F. Scott Fitzgerald", 189, "Plan to read"));
+libreria.addBook(new Book("To Kill a Mockingbird", "Harper Lee", 336, "Read"));
+libreria.addBook(new Book("1984", "George Orwell", 328, "Plan to read"));
+
+libreria.addBook(new Book("Don Quixote", "Miguel de Cervantes", 900, "Read"))
+
+
 console.log(libreria.bookshelf);
 
-function addToLibrary(book) {
-  myLibrary.unshift(book);
-  displayBooks(myLibrary);
-}
+// function addToLibrary(book) {
+//   myLibrary.unshift(book);
+//   displayBooks(myLibrary);
+// }
 
-function removeAllBooks() {
-  myLibrary.length = 0;
-  displayBooks(myLibrary);
-}
+// function removeAllBooks() {
+//   myLibrary.length = 0;
+//   displayBooks(myLibrary);
+// }
 
 function createBookElement(book) {
   const bookDiv = document.createElement("div");
   bookDiv.classList.add("book", "card");
-  const bookIndex = myLibrary.indexOf(book);
+
+  const bookIndex = libreria.bookshelf.indexOf(book);
   bookDiv.setAttribute("data-index", bookIndex.toString());
 
   const bookName = document.createElement("h2");
@@ -100,6 +111,7 @@ function createBookElement(book) {
   const bookIsRead = document.createElement("p");
   bookIsRead.classList.add("book-is-read");
   bookIsRead.textContent = "Status: ";
+
   const bookStatus = document.createElement("span");
   bookStatus.classList.add("book-status");
   bookStatus.textContent = book.isRead;
@@ -107,8 +119,9 @@ function createBookElement(book) {
 
   const buttonsContainer = document.createElement("div");
   buttonsContainer.classList.add("book-el-buttons-container");
+
   const removeButton = document.createElement("button");
-  removeButton.textContent = "Remove";
+  removeButton.textContent = "Remove Book";
   removeButton.classList.add("remove-book");
 
   const changeStatusButton = document.createElement("button");
@@ -134,8 +147,10 @@ function displayBooks(arr) {
     ui.libraryContainer.appendChild(bookDiv);
   });
 
-  removeBookFromLibrary();
+  // removeBookFromLibrary();
   changeReadStatus();
+
+
 }
 
 function changeReadStatus() {
@@ -146,24 +161,35 @@ function changeReadStatus() {
       const bookIndex = parseInt(bookDiv.getAttribute("data-index"));
       const bookStatus = bookDiv.querySelector(".book-status");
 
-      myLibrary[bookIndex].isRead =
-        myLibrary[bookIndex].isRead === "Read" ? "Not Read" : "Read";
-      bookStatus.textContent = myLibrary[bookIndex].isRead;
+      libreria.bookshelf[bookIndex].isRead =
+        libreria.bookshelf[bookIndex].isRead === "Read" ? "Not Read" : "Read";
+      bookStatus.textContent = libreria.bookshelf[bookIndex].isRead;
     }
   });
 }
 
 // function removeBookFromLibrary() {
-//     ui.libraryContainer.addEventListener('click', (event) => {
-//         const target = event.target;
-//         if (target.classList.contains('remove-book')) {
-//             const bookDiv = target.closest('.card');
-//             const bookIndex = parseInt(bookDiv.getAttribute('data-index'));
-//
-//             myLibrary.splice(bookIndex, 1);
-//             displayBooks(myLibrary);
-//         }
+//   const libraryContainer = ui.libraryContainer;
+//   const bookDivs = libraryContainer.querySelectorAll(".card");
+//   for (let i = 0; i < bookDivs.length; i++) {
+//     const bookCard = bookDivs[i];
+//     const removeButton = bookCard.querySelector(".remove-book");
+//     removeButton.addEventListener("click", function () {
+//       // Get the book index from the data-index attribute of the book card
+//       const bookIndex = parseInt(bookCard.getAttribute("data-index"));
+
+//       // Remove the book card from the DOM
+//       bookCard.remove();
+
+//       // Remove the book object from the myLibrary array
+//       // myLibrary.splice(bookIndex, 1);
+
+//       libreria.removeBook(bookIndex, 1);
+//       console.log(libreria.bookshelf);
+
+//       console.log(`Book ${bookIndex} removed`);
 //     });
+//   }
 // }
 
 function removeBookFromLibrary() {
@@ -172,16 +198,13 @@ function removeBookFromLibrary() {
   for (let i = 0; i < bookDivs.length; i++) {
     const bookCard = bookDivs[i];
     const removeButton = bookCard.querySelector(".remove-book");
-    removeButton.addEventListener("click", function () {
-      // Get the book index from the data-index attribute of the book card
+    removeButton.addEventListener("click", (event) => {
       const bookIndex = parseInt(bookCard.getAttribute("data-index"));
 
       // Remove the book card from the DOM
       bookCard.remove();
 
       // Remove the book object from the myLibrary array
-      // myLibrary.splice(bookIndex, 1);
-
       libreria.removeBook(bookIndex, 1);
       console.log(libreria.bookshelf);
 
@@ -190,13 +213,14 @@ function removeBookFromLibrary() {
   }
 }
 
+
 function main() {
   ui.addBookButton.addEventListener("click", () => {
     ui.addBookDialog.showModal();
   });
 
   ui.formCancelButton.addEventListener("click", () => {
-    ui.dialog.close();
+    ui.addBookDialog.close();
   });
 
   ui.formSubmitButton.addEventListener("click", (e) => {
@@ -220,7 +244,7 @@ function main() {
 
   removeBookFromLibrary();
 
-  displayBooks(myLibrary);
+  displayBooks(libreria.bookshelf);
 }
 
 main();
