@@ -151,14 +151,41 @@ function main() {
   ui.formSubmitButton.addEventListener('click', (e) => {
     e.preventDefault();
     const bookName = document.querySelector('#book-name').value;
+    const cleanBookName = DOMPurify.sanitize(bookName);
+
     const bookAuthor = document.querySelector('#book-author').value;
+    const cleanBookAuthor = DOMPurify.sanitize(bookAuthor);
+
     const bookPages = document.querySelector('#book-pages').value;
+    const cleanBookPages = DOMPurify.sanitize(bookPages);
+
     const bookIsRead = ui.readStatusInput.checked ? 'Read' : 'Not Read';
 
-    const book = new Book(bookName, bookAuthor, bookPages, bookIsRead);
-    // addToLibrary(book);
+    if (cleanBookName === '') {
+      alert('Please enter a book name');
+      return;
+    } else if (cleanBookAuthor === '') {
+      alert('Please enter an author name');
+      return;
+    } else if (cleanBookPages === '') {
+      alert('Please enter the number of pages');
+      return;
+    } else if (bookIsRead === '') {
+      alert('Please enter the book status');
+      return;
+    }
+
+    const book = new Book(
+      cleanBookName,
+      cleanBookAuthor,
+      cleanBookPages,
+      bookIsRead
+    );
+
     libreria.addBook(book);
     ui.addBookDialog.close();
+
+    document.querySelector('#book-name').value = '';
   });
 
   ui.removeAllBooksButton.addEventListener('click', () => {
@@ -170,5 +197,9 @@ function main() {
   setupEventListeners();
   displayBooks(libreria.bookshelf);
 }
+
+const clean = DOMPurify.sanitize('Hello <img src="x" onerror="alert(1)">');
+
+console.log(clean);
 
 main();
