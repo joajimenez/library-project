@@ -185,7 +185,7 @@ function main() {
     libreria.addBook(book);
     ui.addBookDialog.close();
 
-    document.querySelector('#book-name').value = '';
+    ui.addBookForm.reset();
   });
 
   ui.removeAllBooksButton.addEventListener('click', () => {
@@ -197,9 +197,5 @@ function main() {
   setupEventListeners();
   displayBooks(libreria.bookshelf);
 }
-
-const clean = DOMPurify.sanitize('Hello <img src="x" onerror="alert(1)">');
-
-console.log(clean);
 
 main();
