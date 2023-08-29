@@ -1,5 +1,3 @@
-import { ui } from './ui.js';
-
 export function handleRemoveBook(button) {
   const bookDiv = button.closest('.card');
   const bookIndex = parseInt(bookDiv.getAttribute('data-index'));
