@@ -1,13 +1,5 @@
-const ui = {
-  libraryContainer: document.getElementById('library-container-el'),
-  addBookButton: document.querySelector('.add-book-btn'),
-  removeAllBooksButton: document.querySelector('.remove-all-btn'),
-  addBookDialog: document.querySelector('#add-book-dialog'),
-  addBookForm: document.querySelector('#add-book-form'),
-  formSubmitButton: document.querySelector('.form-submit-btn'),
-  formCancelButton: document.querySelector('.form-cancel-btn'),
-  readStatusInput: document.querySelector('#book-is-read'),
-};
+import { ui } from './ui.js';
+import { handleReadStatus, handleRemoveBook } from './utils.js';
 
 class Book {
   constructor(name, author, pages, isRead) {
@@ -123,14 +115,6 @@ function createBookElement(book) {
   return bookDiv;
 }
 
-function displayBooks(arr) {
-  ui.libraryContainer.innerHTML = '';
-  arr.forEach((book) => {
-    const bookDiv = createBookElement(book);
-    ui.libraryContainer.appendChild(bookDiv);
-  });
-}
-
 // Let's refactor the removeBookFromLibrary function to use event propagation
 
 function setupEventListeners() {
@@ -147,28 +131,12 @@ function setupEventListeners() {
   });
 }
 
-function handleRemoveBook(button) {
-  const bookDiv = button.closest('.card');
-  const bookIndex = parseInt(bookDiv.getAttribute('data-index'));
-
-  // Remove the book card from the DOM
-  bookDiv.remove();
-
-  // Remove the book object from the "libreria" array
-  libreria.removeBook(bookIndex);
-  console.log(libreria.bookshelf);
-
-  console.log(`Book ${bookIndex} removed`);
-}
-
-function handleReadStatus(button) {
-  const bookDiv = button.closest('.card');
-  const bookIndex = parseInt(bookDiv.getAttribute('data-index'));
-  const bookStatus = bookDiv.querySelector('.book-status');
-
-  libreria.bookshelf[bookIndex].isRead =
-    libreria.bookshelf[bookIndex].isRead === 'Read' ? 'Not Read' : 'Read';
-  bookStatus.textContent = libreria.bookshelf[bookIndex].isRead;
+function displayBooks(arr) {
+  ui.libraryContainer.innerHTML = '';
+  arr.forEach((book) => {
+    const bookDiv = createBookElement(book);
+    ui.libraryContainer.appendChild(bookDiv);
+  });
 }
 
 function main() {

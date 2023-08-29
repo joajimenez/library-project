@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono&family=Rubik:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Condensed&family=Roboto+Mono&display=swap');
 
 /* Reset CSS */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 /* Body */
@@ -22,6 +22,11 @@ nav {
   background-color: #fff;
   padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+nav h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .nav-buttons {
@@ -71,6 +76,7 @@ button {
   font-size: 1rem;
   font-weight: 400;
   border: none;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
 .add-book-btn {
